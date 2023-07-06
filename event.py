@@ -20,15 +20,15 @@ class Event:
         self.events = []
         self.buffer = []
     def push_N(self):
-        self.events.append('N')
+        self.events.append('N')  # Slit Number
     def push_S(self):
-        self.events.append('S')
-    def push_Lambda(self):
-        self.events.append('L')
+        self.events.append('S')  # Slit Spacing
+    def push_L(self):
+        self.events.append('L')  # Wavelength (Lambda)
     def push_D(self):
-        self.events.append('D')
+        self.events.append('D')  # Distance between slit and image
     def push_Sim(self):
-        self.events.append("sim")
+        self.events.append("sim")  # Status Label
 
     def push_L_input(self):
         self.events.append("L in")

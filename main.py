@@ -17,32 +17,49 @@ slider_slitN = Slider(min=2, max=10, step=1, length=220, bind=event.push_N)
 wt_slitN_v = Label(f"{slider_slitN.value()}")
 scene.append_to_caption('\n')
 
-wt_slitL = Label("Slit Spacing")
-slider_slitL = Slider(min=1, max=1000, step=1, length=220, bind=event.push_L)
-scene.append_to_caption('\t')
-input_slitL = winput(bind=event.push_L_input)
-wt_slitL_v = Label("倍波長")
+wt_slitS = Label("Slit Spacing")
+slider_slitS = Slider(min=1, max=1000, step=1, length=220, bind=event.push_S)
+wt_slitS_v = Label(f"{slider_slitS.value()} 倍波長")
 scene.append_to_caption('\n')
 
-wt_lambda = Label("Lambda")
-slider_lambda = Slider(min=380, max=780, step=1, length=220, bind=event.push_Lambda)
-wt_lambda_v = Label(f"{slider_lambda.value()} (nm)")
+wt_L = Label("Wavelength")
+slider_L = Slider(min=380, max=780, step=1, length=220, bind=event.push_L)
+wt_L_v = Label(f"{slider_L.value()} nm")
 scene.append_to_caption('\n')
 
-wt_distance = Label("Distance")
-slider_distance = Slider(min=1, max=1000, step=1, length=220, bind=event.push_D)
-scene.append_to_caption('\t')
-input_distance = winput(bind=event.push_D_input)
-# input_distance = winput(bind=db)
-wt_distance_v = Label("倍波長")
-scene.append_to_caption('\n\n')
+wt_D = Label("Distance")
+slider_D = Slider(min=100, max=10000, step=1, length=220, bind=event.push_D)
+wt_D_v = Label(f"{slider_D.value()} 倍波長")
+scene.append_to_caption("\n\n")
 
 btn_simulate = button(text="Simulate", bind=event.push_Sim)
 scene.append_to_caption("\n\n\n")
 
-wt_events = Label(f"{event.buffer}")
-
-
 
 if __name__ == "__main__":
-    print(type(vec(0,0,0)))
+    running = True
+
+    while running:
+        if len(event.events) != 0:
+            key = event.events[0]
+            if key == 'N':
+                txt = slider_slitN.value()
+                wt_slitN_v.modify(txt)
+                renderer.attributes['N'] = txt
+            elif key == 'S':
+                txt = slider_slitS.value()
+                wt_slitS_v.modify(txt)
+                renderer.attributes['S'] = txt * renderer.attributes['L']
+            elif key == 'L':
+                txt = slider_L.value()
+                wt_L_v.modify(txt)
+                renderer.attributes['L'] = txt
+            elif key == 'D':
+                txt = slider_D.value()
+                wt_D_v.modify(txt)
+                renderer.attributes['D'] = txt * renderer.attributes['L']
+            elif key == "sim":
+                wt_status.modify("Simulating")
+                renderer.simulate()
+                wt_status.modify("Simulation Complete")
+            event.pop()
