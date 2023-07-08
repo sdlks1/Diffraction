@@ -16,10 +16,10 @@ class Renderer:
     def __init__(self, image_res: int) -> None:
         # Attributes
         self.attributes = {
-            'N': 0,  # Slit Number
-            'S': 0,  # Slit Spacing
-            'L': 0,  # Wave Length
-            'D': 0   # Distance from Slit to Image Plane
+            'N': 2,  # Slit Number
+            'S': 1,  # Slit Spacing
+            'L': 380,  # Wave Length
+            'D': 100   # Distance from Slit to Image Plane
         }
 
         self.IMAGE_RES = image_res
@@ -42,25 +42,25 @@ class Renderer:
             [
                 [3.24062548, -1.53720797, -0.49862860],
                 [-0.96893071, 1.87575606, 0.04151752],
-                [0.05571012, -0.20402105, 1.05699594],
+                [0.05571012, -0.20402105, 1.05699594]
             ]
         )
 
         RGB = colour.XYZ_to_RGB(
-            colour.wavelength_to_XYZ(560.0),
+            colour.wavelength_to_XYZ(wavelength),
             illuminant_XYZ,
             illuminant_RGB,
             matrix_XYZ_to_RGB,
-            chromatic_adaptation_transform,
+            chromatic_adaptation_transform
         )  
 
-        return vec(int(RGB[0]), int(RGB[1]), int(RGB[2]))
+        return [RGB[0], RGB[1], RGB[2]]
     
     def render(self) -> None:
         self.pixels.clear()
         p0 = -30 + self.IMAGE_RES / 2
         for cnt in range(int(60 / self.IMAGE_RES)):
-            self.pixels.append(Pixel(vec(p0 + cnt * self.IMAGE_RES, 0, 0), self.wv_to_rgb(), self.IMAGE_RES))
+            self.pixels.append(Pixel(vec(p0 + cnt * self.IMAGE_RES, 0, 0), color.black, self.IMAGE_RES))
         
         self.slits.clear()
         p0 = (1 - self.get_('N')) * self.get_('S') / 2
@@ -71,6 +71,7 @@ class Renderer:
         self.render()
 
         rgb = self.wv_to_rgb()
+        print(rgb[0])
 
         for slit in self.slits:
             for pixel in self.pixels:

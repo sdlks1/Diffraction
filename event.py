@@ -29,11 +29,6 @@ class Event:
         self.events.append('D')  # Distance between slit and image
     def push_Sim(self):
         self.events.append("sim")  # Status Label
-
-    def push_L_input(self):
-        self.events.append("L in")
-    def push_D_input(self):
-        self.events.append("D in")
     
     def pop(self):
         self.buffer.append(self.events[0])

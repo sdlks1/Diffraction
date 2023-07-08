@@ -45,19 +45,19 @@ if __name__ == "__main__":
             if key == 'N':
                 txt = slider_slitN.value()
                 wt_slitN_v.modify(txt)
-                renderer.attributes['N'] = txt
+                renderer.set_('N', txt)
             elif key == 'S':
                 txt = slider_slitS.value()
                 wt_slitS_v.modify(txt)
-                renderer.attributes['S'] = txt * renderer.attributes['L']
+                renderer.set_('S', txt*renderer.get_('L'))
             elif key == 'L':
                 txt = slider_L.value()
                 wt_L_v.modify(txt)
-                renderer.attributes['L'] = txt
+                renderer.set_('L', txt)
             elif key == 'D':
                 txt = slider_D.value()
                 wt_D_v.modify(txt)
-                renderer.attributes['D'] = txt * renderer.attributes['L']
+                renderer.set_('D', txt*renderer.get_('L'))
             elif key == "sim":
                 wt_status.modify("Simulating")
                 renderer.simulate()
